@@ -39,3 +39,177 @@ fi
 # ----------------------------------------------------------------
 set -ex
 
+# -------------------------------------------
+# Upstream - this is the mirror you're using
+# -------------------------------------------
+
+## Set the Main Mirror
+MIRROR="http://ftp.de.debian.org/debian/"
+LOCAL_MIRROR="http://127.0.0.1/debian-main/"
+MIRROR_RELEASE="squeeze"
+MIRROR_COMP="main contrib non-free"
+
+## Set the Security Mirror (violtile)
+SEC_MIRROR="http://ftp.de.debian.org/debian/"
+SEC_LOCAL_MIRROR="http://127.0.0.1/debian-security/"
+SEC_RELEASE="squeeze-updates"
+SEC_COMP="main contrib"
+
+## Set the Updates Mirror
+UPD_MIRROR="http://security.debian.org/"		
+UPD_LOCAL_MIRROR="http://127.0.0.1/debian-updates/"
+UPD_RELEASE="squeeze/updates"
+UPD_COMP="main contrib non-free"
+
+## Set the Backports Mirror
+BP_MIRROR="http://backports.debian.org/debian-backports"
+BP_LOCAL_MIRROR="http://127.0.0.1/debian-backports/"
+BP_RELEASE="squeeze-backports"
+BP_COMP="main"
+
+
+# ---------------------------------------
+# Mainstream - Distribution Information
+# ---------------------------------------
+
+## Name your Distribution
+DIST_NAME="Cybernux"
+DIST_NAME_SMALL=`echo $DIST_NAME | tr 'A-Z' 'a-z'`
+DIST_NAME_FULL="Cybernux Linux®"
+
+## Release name
+BASE_RELEASE="othala"
+[ -z $RELEASE ] && RELEASE=$BASE_RELEASE
+
+## Leave blank if you don't want a tagline
+TAGLINE="Free your PC"
+
+## Repository Keyring
+REPO_KEY="2D113FB1"
+
+## Name and email address for changes. Syntax is important.
+export MAINT_INFO='Cybernux Keyring (Cybernux Linux® Repository Keyring) <keyring@cybernux.org>'
+
+# Which architectures will we have in our repository (list all of them)
+REPO_ARCHES="i386 amd64"
+
+# -----------------------
+# MID STREAM build infos
+# -----------------------
+
+## Where things go on the filesystem
+BASE_DIR="/srv/$DIST_NAME_SMALL"
+
+## Where the buildscripts and livecd pull sources from
+REPO_APT="http://127.0.0.1/$DIST_NAME_SMALL"
+
+## Distribution Version (also used on the CDs/DVDs)
+DIST_VERSION="1.0"
+
+## ARCHIVE AND MEDIA
+## Primary mirror should be repo.$DOMAIN, secondaries are CC.repo.$DOMAIN
+## Security host will be security.$DOMAIN and CC.security.$DOMAIN
+## Bittorrent will use http://torrent.$DOMAIN:6969/announce
+DOMAIN="cybernux.org"
+
+## Optional bittorrent announce list (btmakemetafile.bittornado --help)
+BITTORRENT_ANNOUNCE_LIST=''
+
+## Where to push the repo and livecds
+RSYNC_DEST="whoever@repo.$DOMAIN/public_html:/srv/$DIST_NAME_SMALL-$BASE_RELEASE/"
+## Extra options for rsyncing up cds, -va is assumed
+RSYNC_OPTIONS="--partial"
+
+## ARTWORK
+LOGO_LETTER="c"
+LOGO_COLOUR="blue"	# Don't choose black or yellow
+
+## Changes to be made to the debian-minimal etc. and packages
+META_minimal_ADD=""
+META_standard_ADD="emacs nethack bsdgames build-essential mc"
+META_desktop_ADD="$DIST_NAME_SMALL-artwork $DIST_NAME_SMALL-gdm-themes epiphany-browser openoffice.org-fix discover read-edid"
+META_desktop_ADD="${META_desktop_ADD} gthumb gnote aspell-en"
+META_minimal_REMOVE=""
+META_standard_REMOVE=""
+META_desktop_REMOVE=""
+META_desktop_REMOVE="${META_desktop_REMOVE}"
+META_desktop_REMOVE="${META_desktop_REMOVE}"
+
+## Packages to install on the live cd not pulled in by META_* changes
+LIVECD_EXTRAS="xresprobe binutils-static gvfs-fuse gparted jfsutils ntfsprogs xfsprogs vim"
+
+## Rename Iceweasel (or Firefox if you decide to use that)
+ICEWEASEL_NAME="IceWolf"
+
+## Extra packages to add to the source cd
+CD_SRC_ADD="forkmason"
+
+## Extra packages to install in the chroot
+CHROOT_EXTRA_PACKAGES="cdbs python-dev python-distutils-extra python-central ccache"
+
+## Set it to 1 if you want to use ccache in the chrooted environment.
+## ccache is turned off by default because it is useful only for development
+## and may increase first compilation time.
+USECCACHE=0
+
+## Version numbers to be appended to generated .debs 
+## Mostly used during development (Increment these versions when making a change to the package)
+APT_VERSION=1
+BASE_FILES_VERSION=1
+ARTWORK_VERSION=1
+FORKMASON_VERSION=1
+KDEFAULT_SETTINGS_VERSION=1
+ICEWEASEL_VERSION=1
+GNOME_DESKTOP_VERSION=1
+GNOME_PANEL_VERSION=1
+EPIPHANY_BROWSER_VERSION=1
+PYTHON_APT_VERSION=1
+
+## PATHS
+WORK_DIR=$BASE_DIR/tmp
+## Where to put stuff for creating the livecd, and creating packages
+LIVE_CD_DIR=$BASE_DIR/livecd
+REPO_DEST=$BASE_DIR/$DIST_NAME_SMALL
+
+## Do you want to enable backports and updates?
+UPDATES="0"
+BACKPORTS="0"
+
+## Which extras (aka variant) to build
+if [ 1 == $UPDATES ]; then EXTRAS="-updates"; fi
+if [ 1 == $BACKPORTS ]; then EXTRAS="$EXTRAS -backports"; fi
+
+## What arch are we building? "amd64" and "i386", defaults to i386 if nothing is specified
+if [ -z $BUILD_ARCH ]; then
+	BUILD_ARCH="amd64"
+fi
+
+## Set variables for different sections to use 
+case $BUILD_ARCH in
+	386 | i386 | I386 | ia32 | IA32)
+		export GNS_HOST_ARCH="i386";
+		export KERNEL_ARCH="386";
+		export DPKG_OPTS='-rfakeroot -e"$MAINTINFO" -m"$MAINTINFO" -us -uc -ai386';
+	;;
+	amd64 | AMD64)
+		export GNS_HOST_ARCH="amd64";
+		export KERNEL_ARCH="amd64";
+		export DPKG_OPTS='-rfakeroot -e"$MAINTINFO" -m"$MAINTINFO" -us -uc -B -aamd64';
+	;;
+	*)
+	echo -e "\n\nERROR\! invalid arch\!\n\n"
+	exit 1
+	;;
+esac
+
+case $(tr A-Z a-z <<<$MIRROR_RELEASE) in
+	"squeeze")
+		export KERNEL_RELEASE="2.6.32"
+		;;
+	*)
+		exit 1
+		;;
+esac
+
+## Without this, the diff cleaning for gen-linux will break. Probably affects other stuff too.
+LANG=C
