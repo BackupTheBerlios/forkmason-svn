@@ -1,4 +1,5 @@
-I am changing the build method somewhat, so we will add 3 folders MAIN, MM, and SEC.
+I am changing the build method somewhat, so we have 3 build scripts ==> ForkMason - does the MAIN repo, ForkMasonMM - does the MULTIMEDIA repo, and ForkMasonSEC - does the SECURITY repo.
+
 These will only pull the Debian archive and rebuild it for your devopment release ( I like calling it that ).
 
 Then use rebuildd to rebuild the packages, your own packages to the 'incoming' folder.
@@ -6,3 +7,5 @@ Then use rebuildd to rebuild the packages, your own packages to the 'incoming' f
 There will be a new set of howto use these scripts.
 
 21 May 2012
+
+ForkMason
