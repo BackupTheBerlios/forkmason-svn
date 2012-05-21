@@ -1,0 +1,8 @@
+I am changing the build method somewhat, so we will add 3 folders MAIN, MM, and SEC.
+These will only pull the Debian archive and rebuild it for your devopment release ( I like calling it that ).
+
+Then use rebuildd to rebuild the packages, your own packages to the 'incoming' folder.
+
+There will be a new set of howto use these scripts.
+
+21 May 2012
