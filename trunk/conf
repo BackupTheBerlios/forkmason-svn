@@ -232,10 +232,10 @@ fi
 # -------------------------------------------------
 # DON'T CHANGE THIS - may break things
 # This sets variables for different 
-# sections of the $BUILDARCH variable
+# sections of the $BUILD_ARCH variable
 # Using case to be a little forgiving about input
 # -------------------------------------------------
-case $BUILDARCH in
+case $BUILD_ARCH in
 	386 | i386 | I386 | ia32 | IA32)
 		export HOST_ARCH="i386";
 		export KERNEL_ARCH="386";
