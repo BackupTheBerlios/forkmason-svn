@@ -26,6 +26,167 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # ----------------------------------------------------------------------
 
+## ----------------------
+## Check if you are ROOT
+## ----------------------
+if [ $UID != 0 ]; then
+	echo 'This script must be run as root'
+	exit 1
+fi
+
+# -------------------------------
+# Set Debuuging
+# If you want less debugging 
+# info to be printed out,
+# change this line to 'set +ex'
+# ------------------------------
+set -ex
+
+## --------------------
+## UPSTREAM AREA
+## This is where you
+## get your pkgs from
+## --------------------
+
+# -------------------
+# Main Upstream repo
+# -------------------
+MIRROR="http://ftp.de.debian.org/debian/"
+MIRROR_DIST="wheezy"
+MIRROR_COMP="main contrib non-free"
+
+# -------------------
+# Updates Upstream repo
+# -------------------
+UPD_MIRROR="http://ftp.de.debian.org/debian-security"
+UPD_MIRROR_DIST="wheezy-updates"
+UPD_MIRROR_COMP="main contrib non-free"
+
+# --------------------------
+# Backports Upstream repo
+# --------------------------
+BP_MIRROR="http://ftp.de.debian.org/debian-backports"
+BP_MIRROR_DIST="wheezy-backports"
+BP_MIRROR_COMP="main contrib non-free"
+
+# -------------------
+# Mate Upstream repo
+# -------------------
+MATE_MIRROR="http://repo.mate-desktop.org/debian"
+MATE_MIRROR_DIST="wheezy"
+MATE_MIRROR_COMP="main"
+
+
+# -------------------
+# Other Upstream repo
+# -------------------
+OTH_MIRROR=""
+OTH_MIRROR_DIST=""
+OTH_MIRROR_COMP=""
+
+
+## ---------------------
+## DISTRO CONFIGURATION
+## ---------------------
+
+# -----------------------
+# Your Distribution Name
+# -----------------------
+DIST_NAME_FULL="Cybernux Linux®"
+DIST_NAME="Cybernux"
+DIST_NAME_L=`echo $DIST_NAME | tr 'A-Z' 'a-z'`
+
+# ----------------------
+# Your Releade Codename
+# ---------------------
+BASE_RELEASE=othala
+[ -z $RELEASE ] && RELEASE=$BASE_RELEASE
+
+# ------------------------------
+# Not really needed - but cool
+# -----------------------------
+TAG_LINE=""
+
+# -------------------------------
+# This is the 8 character key ID,
+# not the full fingerprint
+# -------------------------------
+REPO_KEY=84984D96
+
+
+
+# Name and email address for changes. Syntax is important.
+export MAINTINFO='gNewSense hackers <gnewsense-dev@nongnu.org>'
+
+# Do you want to enable backports and updates?
+UPDATES=1
+BACKPORTS=1
+
+# Which architectures will we have in our repository (list all of them)
+ALL_REPO_ARCHES="i386"
+
+
+
+
+
+
+## -----------------------------
+## EDIT ONLY WHERE NOTED
+## Unless you know what you are
+## If your changes work, report 
+## back to us - we may use it.
+## -----------------------------
+
+# ---------------------
+# Which extras to build
+# ---------------------
+if [ 1 == $UPDATES ]; then EXTRAS="-updates"; fi
+if [ 1 == $BACKPORTS ]; then EXTRAS="$EXTRAS -backports"; fi
+
+# -------------------------------------------
+# CHANGE the arch we are building. 
+# Defaults to i386 if nothing is specified
+# Valid strings are "amd64" and "i386"
+# -------------------------------------------
+if [ -z $BUILD_ARCH ]; then
+	BUILD_ARCH="i386"
+fi
+
+# -------------------------------------------------
+# DON'T CHANGE THIS - may break things
+# This sets variables for different 
+# sections of the $BUILDARCH variable
+# Using case to be a little forgiving about input
+# -------------------------------------------------
+case $BUILDARCH in
+	386 | i386 | I386 | ia32 | IA32)
+		export HOST_ARCH="i386";
+		export KERNEL_ARCH="386";
+		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -ai386';
+	;;
+	amd64 | AMD64)
+		export HOST_ARCH="amd64";
+		export KERNEL_ARCH="amd64";
+		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -B -aamd64';
+	;;
+	*)
+	echo -e "\n\nERROR\! invalid arch\!\n\n"
+	exit 1
+	;;
+esac
+
+# --------------------------------
+# CHANGE:
+# this is the Kernel version used 
+# --------------------------------
+case $(tr A-Z a-z <<<$MIRROR_DIST) in
+	"wheezy")
+		export KERNEL_RELEASE="3.2.0"
+		;;
+	*)
+		exit 1
+		;;
+esac
 
 
 
