@@ -141,12 +141,6 @@ REPO_ARCHES="i386 amd64"
 LOGO_LETTER=c
 LOGO_COLOUR=blue
 
-# ------
-# PATHS
-# ------
-WORK_DIR=$BASEDIR/tmp
-LIVE_DIR=$BASEDIR/livecd
-REPO_DEST=$BASEDIR/$DIST_NAME_L
 
 # Version numbers to be appended to generated .debs 
 # Mostly used during development (Increment these versions when making a change to the package)
@@ -166,7 +160,10 @@ GNOME_PANEL_VERSION=1
 # Where things go on 
 # the Build Server
 # ------------------
-BASEDIR=/srv/$DIST_NAME_L
+BASE_DIR=/srv/$DIST_NAME_L
+WORK_DIR=$BASE_DIR/tmp
+LIVE_DIR=$BASE_DIR/livecd
+REPO_DEST=$BASE_DIR/$DIST_NAME_L
 
 # ---------------------------
 # Where the buildscripts and 
