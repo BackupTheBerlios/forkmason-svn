@@ -113,19 +113,71 @@ TAG_LINE=""
 # -------------------------------
 REPO_KEY=84984D96
 
+# -----------------------------------
+# Name and email address for changes. 
+# Syntax is important.
+# -----------------------------------
+export MAINT_INFO='Jimmy M. Coleman <hyperclock@cybernux.org>'
 
+#--------------------------------------
+# enable/disable backports and updates
+# enable=1   disable=0
+# ------------------------------------
+UPDATES=0
+BACKPORTS=0
 
-# Name and email address for changes. Syntax is important.
-export MAINTINFO='gNewSense hackers <gnewsense-dev@nongnu.org>'
+# ------------
+# Repo Arches
+# ------------
+REPO_ARCHES="i386 amd64"
 
-# Do you want to enable backports and updates?
-UPDATES=1
-BACKPORTS=1
+## -----------------
+## MID STREAM AREA
+## -----------------
 
-# Which architectures will we have in our repository (list all of them)
-ALL_REPO_ARCHES="i386"
+# -------------------
+# Where things go on 
+# the Build Server
+# ------------------
+BASEDIR=/srv/$DIST_NAME_L
 
+# ---------------------------
+# Where the buildscripts and 
+# livecd pull sources from
+# --------------------------
+REPO_APT=http://127.0.0.1/$DIST_NAME_L
 
+## ----------------
+## LIVE CD STUFF
+## ----------------
+
+# --------------------
+# Live CD/DVD Version
+# -------------------
+LIVE_VERS=1.0
+
+## -------------
+## ARCHIVE AREA
+## -------------
+
+#-------------------------------------------
+# Primary mirror should be archive.$DOMAIN, 
+# secondaries are CC.archive.$DOMAIN
+# Security host will be security.$DOMAIN 
+# and CC.security.$DOMAIN
+# -----------------------------------------
+DOMAIN=cybernux.org
+
+# -----------------------------------
+# Where to push the repo and livecds
+# -----------------------------------
+RSYNC_DEST=USER@repo.$DOMAIN:/web/$DIST_NAME_L/
+
+# ----------------------------
+# Extra options for rsyncing 
+# up cds, -va is assumed
+# ---------------------------
+RSYNC_OPTIONS="--partial"
 
 
 
