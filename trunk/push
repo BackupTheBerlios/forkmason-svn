@@ -30,7 +30,11 @@
 # Pushes the repo to the mirror
 # -------------------------------
 
-. config
+# --------------
+# Get dist info
+# -------------
+. conf
+
 
 
 date '+%s%n%c' > $REPO_DEST/dists/.last_push_repo

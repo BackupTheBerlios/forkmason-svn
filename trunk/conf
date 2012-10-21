@@ -131,6 +131,33 @@ BACKPORTS=0
 # ------------
 REPO_ARCHES="i386 amd64"
 
+## --------------------
+## ARTWORK & Packaging
+## --------------------
+
+# -----------------------------------
+# Don't choose black or yellow color
+# -----------------------------------
+LOGO_LETTER=c
+LOGO_COLOUR=blue
+
+# ------
+# PATHS
+# ------
+WORK_DIR=$BASEDIR/tmp
+LIVE_DIR=$BASEDIR/livecd
+REPO_DEST=$BASEDIR/$DIST_NAME_L
+
+# Version numbers to be appended to generated .debs 
+# Mostly used during development (Increment these versions when making a change to the package)
+APT_VERSION=1
+BASE_FILES_VERSION=1
+ARTWORK_VERSION=1
+KERNEL_VERSION=1
+ICEWEASEL_VERSION=1
+GNOME_DESKTOP_VERSION=1
+GNOME_PANEL_VERSION=1
+
 ## -----------------
 ## MID STREAM AREA
 ## -----------------
@@ -178,8 +205,6 @@ RSYNC_DEST=USER@repo.$DOMAIN:/web/$DIST_NAME_L/
 # up cds, -va is assumed
 # ---------------------------
 RSYNC_OPTIONS="--partial"
-
-
 
 
 ## -----------------------------
