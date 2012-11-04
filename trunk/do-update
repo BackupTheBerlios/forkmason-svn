@@ -327,7 +327,7 @@ while [ $REDO -eq 1 ]; do	# If versions in the config change, we could need to r
 					# What are the packages build-deps?
 					PKG_BUILD_DEPS=$(chroot $CHROOTDIR bash -c "cd $WORK_DIR/$PKGNAME && dpkg-checkbuilddeps 2>&1 |sed -e 's/ *([^)]*)//g' | cut -d ' ' -f 5-")
 					chroot $CHROOTDIR bash -c "cd $WORK_DIR/$PKGNAME && apt-get -y install $PKG_BUILD_DEPS"
-					chroot $CHROOTDIR bash -c "cd $WORK_DIR/$PKGNAME && $CCACHE_PREFS dpkg-buildpackage $DPKGOPTS"
+					chroot $CHROOTDIR bash -c "cd $WORK_DIR/$PKGNAME && $CCACHE_PREFS dpkg-buildpackage $DPKG_OPTS"
 					reprepro -Vb $REPO_DEST include $RELEASE$distro_release $CHROOTDIR/$WORK_DIR/*.changes
 				fi
 			done
@@ -347,7 +347,7 @@ done
 # --------------------------------
 unset BUILD_ARCH
 unset MAINT_INFO
-unset DPKGOPTS
+unset DPKG_OPTS
 
 echo "do-update completed"
 

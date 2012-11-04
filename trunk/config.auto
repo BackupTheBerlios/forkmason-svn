@@ -47,29 +47,78 @@
 # ---------------------------------------------------------------------------
 
 # Which extras (aka variant) to build
-if [ 1 == $UPDATES ]; then EXTRAS="-updates"; fi
-if [ 1 == $BACKPORTS ]; then EXTRAS="$EXTRAS -backports"; fi
-
+#if [ 1 == $UPDATES ]; then EXTRAS="-updates"; fi
+#if [ 1 == $BACKPORTS ]; then EXTRAS="$EXTRAS -backports"; fi
+#
 # What arch are we building? Defaults to i386 is nothing specified
 # via the calling environment
 # Currently, valid strings are "amd64" and "i386"
-if [ -z $BUILD_ARCH ]; then
-	BUILD_ARCH="i386"
-fi
-
+#if [ -z $BUILD_ARCH ]; then
+#	BUILD_ARCH="i386"
+#fi
+#
 # This sets variables for different sections of builder to use based on the
 # $BUILD_ARCH variable from above
 # Using case to be a little forgiving about input
+#case $BUILD_ARCH in
+#	386 | i386 | I386 | ia32 | IA32)
+#		export GNS_HOST_ARCH="i386";
+#		export KERNEL_ARCH="386";
+#		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -ai386';
+#	;;
+#	amd64 | AMD64)
+#		export GNS_HOST_ARCH="amd64";
+#		export KERNEL_ARCH="amd64";
+#		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -B -aamd64';
+#	;;
+#	*)
+#	echo -e "\n\nERROR\! invalid arch\!\n\n"
+#	exit 1
+#	;;
+#esac
+#
+#case $(tr A-Z a-z <<<$MIRROR_DIST) in
+#	"hardy")
+#		export KERNEL_RELEASE="2.6.24"
+#		;;
+#	*)
+#		exit 1
+#		;;
+#esac
+#
+# What arch are we building? Defaults to i386 is nothing specified
+# via the calling environment
+# Currently, valid strings are "amd64" and "i386"
+#if [ -z $BUILD_ARCH ]; then
+#	BUILD_ARCH="i386"
+#fi
+
+# ---------------------------------------------------------------------------
+### DO NOT EDIT THIS BELOW
+### It exists to set a number of variables automatically according to
+### preferences in config and config.
+### ---------------------------------------------------------------------------
+# ------------------------------------
+# Which extras (aka variant) to build
+# ------------------------------------
+if [ 1 == $UPDATES ]; then EXTRAS="-updates"; fi
+if [ 1 == $BACKPORTS ]; then EXTRAS="$EXTRAS -backports"; fi
+
+# --------------------------------------------------------------------------
+# This sets variables for different sections of builder to use based on the
+# $BUILD_ARCH variable from above
+# Using case to be a little forgiving about input
+# --------------------------------------------------------------------------
 case $BUILD_ARCH in
 	386 | i386 | I386 | ia32 | IA32)
 		export GNS_HOST_ARCH="i386";
 		export KERNEL_ARCH="386";
-		export DPKGOPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -ai386';
+		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -ai386';
 	;;
 	amd64 | AMD64)
 		export GNS_HOST_ARCH="amd64";
 		export KERNEL_ARCH="amd64";
-		export DPKGOPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -B -aamd64';
+		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -B -aamd64';
 	;;
 	*)
 	echo -e "\n\nERROR\! invalid arch\!\n\n"
@@ -78,8 +127,8 @@ case $BUILD_ARCH in
 esac
 
 case $(tr A-Z a-z <<<$MIRROR_DIST) in
-	"hardy")
-		export KERNEL_RELEASE="2.6.24"
+	"wheezy")
+		export KERNEL_RELEASE="3.2.0"
 		;;
 	*)
 		exit 1

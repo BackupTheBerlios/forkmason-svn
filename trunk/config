@@ -251,7 +251,7 @@ LIVECD_EXTRAS="xresprobe binutils-static gvfs-fuse gparted jfsutils ntfsprogs xf
 # (Firefox) to reflect
 # your Distro
 # -------------------------
-ICEWEASEL_NAME=SnowWolf
+ICEWEASEL_NAME=SnoWolf
 
 # ---------------------------------------
 # Extra packages to add to the source cd
@@ -352,12 +352,12 @@ case $BUILD_ARCH in
 	386 | i386 | I386 | ia32 | IA32)
 		export GNS_HOST_ARCH="i386";
 		export KERNEL_ARCH="386";
-		export DPKGOPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -ai386';
+		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -ai386';
 	;;
 	amd64 | AMD64)
 		export GNS_HOST_ARCH="amd64";
 		export KERNEL_ARCH="amd64";
-		export DPKGOPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -B -aamd64';
+		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -B -aamd64';
 	;;
 	*)
 	echo -e "\n\nERROR\! invalid arch\!\n\n"
