@@ -324,9 +324,9 @@ COMPONENTS="main community bound"
 # via the calling environment
 # Currently, valid strings are "amd64" and "i386"
 # ------------------------------------------------------------------
-if [ -z $BUILD_ARCH ]; then
-	BUILD_ARCH="i386"
-fi
+#if [ -z $BUILD_ARCH ]; then
+#	BUILD_ARCH="i386"
+#fi
 
 # ---------------------------------------------------------------------------
 ### DO NOT EDIT THIS BELOW
@@ -338,6 +338,15 @@ fi
 # ------------------------------------
 if [ 1 == $UPDATES ]; then EXTRAS="-updates"; fi
 if [ 1 == $BACKPORTS ]; then EXTRAS="$EXTRAS -backports"; fi
+
+# ------------------------------------------------------------------
+# What arch are we building? Defaults to i386 is nothing specified
+# via the calling environment
+# Currently, valid strings are "amd64" and "i386"
+# ------------------------------------------------------------------
+if [ -z $BUILD_ARCH ]; then
+	BUILD_ARCH="i386"
+fi
 
 # --------------------------------------------------------------------------
 # This sets variables for different sections of builder to use based on the
@@ -361,7 +370,7 @@ case $BUILD_ARCH in
 	;;
 esac
 
-case $(tr A-Z a-z <<<$MIRROR_DIST) in
+case $(tr A-Z a-z <<< $MIRROR_DIST) in
 	"wheezy")
 		export KERNEL_RELEASE="3.2.0"
 		;;
