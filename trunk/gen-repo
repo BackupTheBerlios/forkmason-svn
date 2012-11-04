@@ -78,8 +78,8 @@ if [ 1 == $UPDATES ]; then
 cat >> conf/updates <<EOF
 
 Name: Upstream-updates
-Method: $SEC_MIRROR
-Suite: ${SEC_MIRROR_DIST}-updates
+Method: $UPD_MIRROR
+Suite: ${MIRROR_DIST}-updates
 Components: main>main contrib>community non-free>bound
 EOF
 

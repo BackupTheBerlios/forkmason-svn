@@ -80,7 +80,7 @@ set -ex
 # -------------------
 # Main Upstream repo
 # -------------------
-MIRROR="http://ftp.de.debian.org/debian/"
+MIRROR="http://ftp.de.debian.org/debian"
 MIRROR_DIST="wheezy"
 MIRROR_COMP="main contrib non-free"
 
@@ -151,7 +151,7 @@ TAG_LINE=""
 # This is the 8 character key ID,
 # not the full fingerprint
 # -------------------------------
-REPO_KEY=84984D96
+REPO_KEY="84984D96"
 
 # -----------------------------------
 # Name and email address for changes. 
@@ -166,10 +166,10 @@ export MAINT_INFO='Jimmy M. Coleman <hyperclock@cybernux.org>'
 UPDATES=1
 BACKPORTS=0
 
-# ------------------------------
-# Which arches dou want in your 
+# ---------------------------------
+# Which arches do you want in your 
 # repository (list all of them)
-# ------------------------------
+# ---------------------------------
 REPO_ARCHES="i386 amd64"
 
 ## -----------
