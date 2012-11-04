@@ -70,7 +70,7 @@ Components: main>main contrib>community non-free>bound
 
 Name: Upstream-mate
 Method: $MATE_MIRROR
-Suite: $MIRROR_DIST
+Suite: $MATE_MIRROR_DIST
 Components: main>main
 EOF
 
@@ -79,7 +79,7 @@ cat >> conf/updates <<EOF
 
 Name: Upstream-updates
 Method: $UPD_MIRROR
-Suite: ${MIRROR_DIST}-updates
+Suite: ${UPD_MIRROR_DIST}
 Components: main>main contrib>community non-free>bound
 EOF
 
@@ -104,7 +104,7 @@ cat >> conf/updates <<EOF
 
 Name: Upstream-backports
 Method: $BP_MIRROR
-Suite: ${MIRROR_DIST}-backports
+Suite: ${BP_MIRROR_DIST}
 Components: main>main contrib>community non-free>bound
 EOF
 

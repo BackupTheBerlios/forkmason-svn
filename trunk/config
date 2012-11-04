@@ -319,72 +319,68 @@ COMPONENTS="main community bound"
 
 # ------------May not be needed for us -------------------------
 # Allow for local customisations
-#if [ -r config.local ]; then . config.local; fi
+if [ -r config.local ]; then . config.local; fi
 
-#if [ -r config.auto ]; then . config.auto; else exit 1; fi
+if [ -r config.auto ]; then . config.auto; else exit 1; fi
 # --------------------------------------------------------------
 
-## -----------------------------
-## EDIT ONLY WHERE NOTED
-## Unless you know what you are
-## If your changes work, report 
-## back to us - we may use it.
-## -----------------------------
-
-# ---------------------
-# Which extras to build
-# ---------------------
-if [ 1 == $UPDATES ]; then EXTRAS="-updates"; fi
-if [ 1 == $BACKPORTS ]; then EXTRAS="$EXTRAS -backports"; fi
-
-# -------------------------------------------
-# CHANGE the arch we are building. 
-# Defaults to i386 if nothing is specified
-# Valid strings are "amd64" and "i386"
-# -------------------------------------------
-if [ -z $BUILD_ARCH ]; then
-	BUILD_ARCH="i386"
-fi
-
-# -------------------------------------------------
-# DON'T CHANGE THIS - may break things
-# This sets variables for different 
-# sections of the $BUILD_ARCH variable
+#
+# ------------------------------------------------------------------
+# What arch are we building? Defaults to i386 is nothing specified
+# via the calling environment
+# Currently, valid strings are "amd64" and "i386"
+# ------------------------------------------------------------------
+#if [ -z $BUILD_ARCH ]; then
+#	BUILD_ARCH="i386";
+#fi
+#
+# ---------------------------------------------------------------------------
+### DO NOT EDIT THIS BELOW
+### It exists to set a number of variables automatically according to
+### preferences in config and config.
+### ---------------------------------------------------------------------------
+# ------------------------------------
+# Which extras (aka variant) to build
+# ------------------------------------
+#if [ 1 == $UPDATES ]; then EXTRAS="-updates"; fi
+#if [ 1 == $BACKPORTS ]; then EXTRAS="$EXTRAS -backports"; fi
+#
+# --------------------------------------------------------------------------
+# This sets variables for different sections of builder to use based on the
+# $BUILD_ARCH variable from above
 # Using case to be a little forgiving about input
-# -------------------------------------------------
-case $BUILD_ARCH in
-	386 | i386 | I386 | ia32 | IA32)
-		export HOST_ARCH="i386";
-		export KERNEL_ARCH="386";
-		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -ai386';
-	;;
-	amd64 | AMD64)
-		export HOST_ARCH="amd64";
-		export KERNEL_ARCH="amd64";
-		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -B -aamd64';
-	;;
-	*)
-	echo -e "\n\nERROR\! invalid arch\!\n\n"
-	exit 1
-	;;
-esac
+# --------------------------------------------------------------------------
+#case $BUILD_ARCH in
+#	386 | i386 | I386 | ia32 | IA32)
+#		export GNS_HOST_ARCH="i386";
+#		export KERNEL_ARCH="386";
+#		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -ai386';
+#	;;
+#	amd64 | AMD64)
+#		export GNS_HOST_ARCH="amd64";
+#		export KERNEL_ARCH="amd64";
+#		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -B -aamd64';
+#	;;
+#	*)
+#	echo -e "\n\nERROR\! invalid arch\!\n\n"
+#	exit 1
+#	;;
+#esac
+#
+#case $(tr A-Z a-z <<<$MIRROR_DIST) in
+#	"wheezy")
+#		export KERNEL_RELEASE="3.2.0"
+#		;;
+#	*)
+#		exit 1
+#		;;
+#esac
+#
 
-# --------------------------------
-# CHANGE:
-# this is the Kernel version used 
-# --------------------------------
-case $(tr A-Z a-z <<<$MIRROR_DIST) in
-	"wheezy")
-		export KERNEL_RELEASE="3.2.0"
-		;;
-	*)
-		exit 1
-		;;
-esac
-
-# -------------------------------------
-# Without this, somethings will break. 
-# Some diff cleaning does, probably 
+# ------------------------------------
+# Without this, the diff cleaning for 
+# gen-linux will break. Probably 
 # affects other stuff too.
-#--------------------------------------
+# -------------------------------------
 LANG=C
+
