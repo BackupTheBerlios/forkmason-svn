@@ -163,7 +163,7 @@ export MAINT_INFO='Jimmy M. Coleman <hyperclock@cybernux.org>'
 # Do you want to ENABLE(1) or DISABLE(0) 
 # backports and updates?
 # ---------------------------------------
-UPDATES=0
+UPDATES=1
 BACKPORTS=0
 
 # ------------------------------
@@ -251,7 +251,7 @@ LIVECD_EXTRAS="xresprobe binutils-static gvfs-fuse gparted jfsutils ntfsprogs xf
 # (Firefox) to reflect
 # your Distro
 # -------------------------
-ICEWEASEL_NAME=SnoWolf
+ICEWEASEL_NAME="SnoWolf"
 
 # ---------------------------------------
 # Extra packages to add to the source cd
@@ -324,10 +324,11 @@ COMPONENTS="main community bound"
 #if [ -r config.auto ]; then . config.auto; else exit 1; fi
 # --------------------------------------------------------------
 
-
+# ------------------------------------------------------------------
 # What arch are we building? Defaults to i386 is nothing specified
 # via the calling environment
 # Currently, valid strings are "amd64" and "i386"
+# ------------------------------------------------------------------
 if [ -z $BUILD_ARCH ]; then
 	BUILD_ARCH="i386"
 fi

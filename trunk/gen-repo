@@ -50,19 +50,6 @@ cd $REPO_DEST
 cat >  conf/distributions <<EOF
 Origin: $DIST_NAME
 Label: $DIST_NAME
-Codename: ${RELEASE}-security
-Update: Upstream-security
-Architectures: $REPO_ARCHES source
-Components: main community bound
-UDebComponents: main
-SignWith: $REPO_KEY
-DscIndices: Sources Release . .gz
-DebOverride: override.$RELEASE-security.bin
-UDebOverride: override.$RELEASE-security.bin
-DscOverride: override.$RELEASE-security.src
-
-Origin: $DIST_NAME
-Label: $DIST_NAME
 Codename: $RELEASE
 Update: Upstream Upstream-mate
 Architectures: $REPO_ARCHES source
@@ -76,11 +63,6 @@ DscOverride: override.$RELEASE.src
 EOF
 
 cat >  conf/updates <<EOF
-Name: Upstream-security
-Method: $UPD_MIRROR
-Suite: ${MIRROR_DIST}/security
-Components: main>main contrib>community non-free>bound
-
 Name: Upstream
 Method: $MIRROR
 Suite: $MIRROR_DIST
