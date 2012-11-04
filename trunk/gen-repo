@@ -57,9 +57,9 @@ Components: main community bound
 UDebComponents: main
 SignWith: $REPO_KEY
 DscIndices: Sources Release . .gz
-DebOverride: override.$RELEASE.bin
-UDebOverride: override.$RELEASE.bin
-DscOverride: override.$RELEASE.src
+#DebOverride: override.$RELEASE.bin
+#UDebOverride: override.$RELEASE.bin
+#DscOverride: override.$RELEASE.src
 EOF
 
 cat >  conf/updates <<EOF
@@ -93,9 +93,9 @@ Architectures: $REPO_ARCHES source
 Components: main community bound
 SignWith: $REPO_KEY
 DscIndices: Sources Release . .gz
-DebOverride: override.$RELEASE-updates.bin
-UDebOverride: override.$RELEASE-updates.bin
-DscOverride: override.$RELEASE-updates.src
+#DebOverride: override.$RELEASE-updates.bin
+#UDebOverride: override.$RELEASE-updates.bin
+#DscOverride: override.$RELEASE-updates.src
 EOF
 fi
 
@@ -118,9 +118,9 @@ Architectures: $REPO_ARCHES source
 Components: main community bound
 SignWith: $REPO_KEY
 DscIndices: Sources Release . .gz
-DebOverride: override.$RELEASE-backports.bin
-UDebOverride: override.$RELEASE-backports.bin
-DscOverride: override.$RELEASE-backports.src
+#DebOverride: override.$RELEASE-backports.bin
+#UDebOverride: override.$RELEASE-backports.bin
+#DscOverride: override.$RELEASE-backports.src
 EOF
 fi;
 
@@ -128,4 +128,4 @@ fi;
 mkdir -p $REPO_DEST/cdimage
 mkdir -p $REPO_DEST/apt/{var,lists/partial,cache/archives/partial}
 touch $REPO_DEST/apt/status
-touch conf/purge-$MIRROR_DIST
+#touch conf/purge-$MIRROR_DIST

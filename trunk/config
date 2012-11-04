@@ -178,18 +178,18 @@ REPO_ARCHES="i386 amd64"
 # ----------------------------------
 # Where things go on the filesystem
 # ----------------------------------
-BASEDIR=/srv/$DIST_NAME_L
+BASEDIR="/srv/$DIST_NAME_L"
 
 # ------------------------------
 # Where the buildscripts 
 # and livecd pull sources from
 # ------------------------------
-REPOAPT=http://127.0.0.1/$DIST_NAME_L
+REPOAPT="http://127.0.0.1/$DIST_NAME_L"
 
 ## ----------
 ## LIVE CD
 ## ---------
-LIVECD_VERSION=1.0
+LIVECD_VERSION="1.0"
 
 ## ------------------
 ## ARCHIVE AND MEDIA
@@ -199,7 +199,7 @@ LIVECD_VERSION=1.0
 # secondaries are CC.repo.$DOMAIN
 # Security host will be security.$DOMAIN and CC.security.$DOMAIN
 # ----------------------------------------------------------------
-DOMAIN=cybernux.org
+DOMAIN="cybernux.org"
 
 # ----------------------------------
 # Optional bittorrent announce list 
@@ -210,8 +210,8 @@ BITTORRENT_ANNOUNCE_LIST=''
 # -----------------------------------
 # Where to push the repo and livecds
 # -----------------------------------
-RSYNC_DEST=sandbox@repo.$DOMAIN:/srv/$DIST_NAME_L/
-CD_RSYNC_DEST=sandbox@cdimage.$DOMAIN:/srv/$DIST_NAME_L/
+RSYNC_DEST="sandbox@repo.$DOMAIN:/srv/$DIST_NAME_L/"
+CD_RSYNC_DEST="sandbox@cdimage.$DOMAIN:/srv/$DIST_NAME_L/"
 
 # ---------------------------
 # Extra options for rsyncing 
@@ -324,39 +324,42 @@ COMPONENTS="main community bound"
 #if [ -r config.auto ]; then . config.auto; else exit 1; fi
 # --------------------------------------------------------------
 
-# ------------------------------------------------------------------
-# What arch are we building? Defaults to i386 is nothing specified
-# via the calling environment
-# Currently, valid strings are "amd64" and "i386"
-# ------------------------------------------------------------------
+## -----------------------------
+## EDIT ONLY WHERE NOTED
+## Unless you know what you are
+## If your changes work, report 
+## back to us - we may use it.
+## -----------------------------
+
+# ---------------------
+# Which extras to build
+# ---------------------
+if [ 1 == $UPDATES ]; then EXTRAS="-updates"; fi
+if [ 1 == $BACKPORTS ]; then EXTRAS="$EXTRAS -backports"; fi
+
+# -------------------------------------------
+# CHANGE the arch we are building. 
+# Defaults to i386 if nothing is specified
+# Valid strings are "amd64" and "i386"
+# -------------------------------------------
 if [ -z $BUILD_ARCH ]; then
 	BUILD_ARCH="i386"
 fi
 
-# ---------------------------------------------------------------------------
-### DO NOT EDIT THIS BELOW
-### It exists to set a number of variables automatically according to
-### preferences in config and config.
-### ---------------------------------------------------------------------------
-# ------------------------------------
-# Which extras (aka variant) to build
-# ------------------------------------
-if [ 1 == $UPDATES ]; then EXTRAS="-updates"; fi
-if [ 1 == $BACKPORTS ]; then EXTRAS="$EXTRAS -backports"; fi
-
-# --------------------------------------------------------------------------
-# This sets variables for different sections of builder to use based on the
-# $BUILD_ARCH variable from above
+# -------------------------------------------------
+# DON'T CHANGE THIS - may break things
+# This sets variables for different 
+# sections of the $BUILD_ARCH variable
 # Using case to be a little forgiving about input
-# --------------------------------------------------------------------------
+# -------------------------------------------------
 case $BUILD_ARCH in
 	386 | i386 | I386 | ia32 | IA32)
-		export GNS_HOST_ARCH="i386";
+		export HOST_ARCH="i386";
 		export KERNEL_ARCH="386";
 		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -ai386';
 	;;
 	amd64 | AMD64)
-		export GNS_HOST_ARCH="amd64";
+		export HOST_ARCH="amd64";
 		export KERNEL_ARCH="amd64";
 		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -B -aamd64';
 	;;
@@ -366,6 +369,10 @@ case $BUILD_ARCH in
 	;;
 esac
 
+# --------------------------------
+# CHANGE:
+# this is the Kernel version used 
+# --------------------------------
 case $(tr A-Z a-z <<<$MIRROR_DIST) in
 	"wheezy")
 		export KERNEL_RELEASE="3.2.0"
@@ -375,10 +382,9 @@ case $(tr A-Z a-z <<<$MIRROR_DIST) in
 		;;
 esac
 
-# ------------------------------------
-# Without this, the diff cleaning for 
-# gen-linux will break. Probably 
-# affects other stuff too.
 # -------------------------------------
+# Without this, somethings will break. 
+# Some diff cleaning does, probably 
+# affects other stuff too.
+#--------------------------------------
 LANG=C
-
