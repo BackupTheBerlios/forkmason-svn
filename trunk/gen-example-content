@@ -1,0 +1,72 @@
+#!/bin/bash
+
+###############################################################################
+#		(C) 2009-2011 hyperclock (aka Jimmy M. Coleman)
+#        website	:		www.cybernux.org
+#        email		:		hyperclock(at)cybernux(dot)org
+#        svn		:		http://xp-dev.com/svn/ForkForge/
+#        dev		:		http://dev.cybernux.org
+#
+###############################################################################
+###############################################################################
+#    ForkMason - Scripts designed to build Cybernux Linux® based on Debian.
+#
+#    ForkMason is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    ForkMason is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy (see docs/gpl-3.0.txt) of the GNU General
+#    Public License along with ForkMason.  If not, see
+#    <http://www.gnu.org/licenses/>.
+#
+################################################################################
+################################ INFO ##########################################
+#
+#       Derived from the scripts used by the gNewSense Project.
+#       See the original scripts at http://gnewsense.org
+#
+#       Original (C) 2006 - 2009  Brian Brazil
+#
+#################################################################################
+
+
+
+. config
+
+CONTENT_DIR=$PWD/example-content
+IMGDIR=$PWD/images
+rm -rf $WORKINGDIR
+mkdir -p $WORKINGDIR
+cd $WORKINGDIR
+
+apt-get source example-content$VERSION
+apt-get --yes build-dep example-content$VERSION
+cd example-content-*
+
+sed -i "s/Ubuntu/$DISTRONAME/" debian/rules
+sed -i "s/Ubuntu/$DISTRONAME/; /http/d" debian/control
+
+# Stuff that's Ubuntu specific
+rm -fr *buntu* case* logos/*.png
+rm -f oo-about-these-files.odt oo-cd-cover.odg oo-derivatives.doc oo-welcome.odt
+
+cp $CONTENT_DIR/* .
+
+# If the custom icon exists
+if [ -f $IMGDIR/$DISTRONAME_L-icon-48x48.png ]; then
+	# Copy it into the logos directory
+	cp $IMGDIR/$DISTRONAME_L-icon-48x48.png logos/
+else
+	# Otherwise remove it from debian/rules so there will be no logos/ dir
+	sed -i -e 's/cp -p logos/# cp -p logos/g' debian/rules
+fi
+
+echo | dch -D $RELEASE -v $(sed -n '1s#^.*(\(.*\)).*#\1'${DISTRONAME_L}${EXAMPLE_CONTENT_VERSION}'#p' debian/changelog)  "Changed to reflect $RELEASE"
+
+dpkg-buildpackage $DPKGOPTS
